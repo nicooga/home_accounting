@@ -34,21 +34,16 @@ defmodule HomeAccounting.ExpenditureController do
 
     case Repo.update(changeset) do
       {:ok, expenditure} ->
-        render(conn, "show.json", expenditure: expenditure)
+        render(conn, data: expenditure)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(HomeAccounting.ChangesetView, "error.json", changeset: changeset)
+        |> render(:errors, data: changeset)
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    expenditure = Repo.get!(Expenditure, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(expenditure)
-
+    Repo.get!(Expenditure, id) |> Repo.delete!()
     send_resp(conn, :no_content, "")
   end
 end
