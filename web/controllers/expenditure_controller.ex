@@ -3,14 +3,16 @@ defmodule HomeAccounting.ExpenditureController do
 
   alias HomeAccounting.Expenditure
 
-  plug :scrub_params, "expenditure" when action in [:create, :update]
-
   def index(conn, _params) do
-    expenditures = Repo.all(Expenditure)
-    render(conn, "index.json", expenditures: expenditures)
+    render conn, data: Repo.all(Expenditure)
   end
 
-  def create(conn, %{"expenditure" => expenditure_params}) do
+  def show(conn, %{"id" => id}) do
+    render conn, data: Repo.get(Expenditure, id)
+  end
+
+  def create(conn, %{"data" => data}) do
+    expenditure_params = JaSerializer.Params.to_attributes(data)
     changeset = Expenditure.changeset(%Expenditure{}, expenditure_params)
 
     case Repo.insert(changeset) do
@@ -18,17 +20,12 @@ defmodule HomeAccounting.ExpenditureController do
         conn
         |> put_status(:created)
         |> put_resp_header("location", expenditure_path(conn, :show, expenditure))
-        |> render("show.json", expenditure: expenditure)
+        |> render(:show, data: expenditure)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(HomeAccounting.ChangesetView, "error.json", changeset: changeset)
+        |> render(:errors, data: changeset)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    expenditure = Repo.get!(Expenditure, id)
-    render(conn, "show.json", expenditure: expenditure)
   end
 
   def update(conn, %{"id" => id, "expenditure" => expenditure_params}) do

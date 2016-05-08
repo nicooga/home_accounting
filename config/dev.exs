@@ -24,8 +24,12 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :home_accounting, HomeAccounting.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: nil,
-  password: nil,
   database: "home_accounting_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :monetized, config: [
+  delimiter: ".",
+  separator: ",",
+  currency: "ARS"
+]

@@ -1,9 +1,11 @@
 defmodule HomeAccounting.Expenditure do
   use HomeAccounting.Web, :model
 
+  alias Monetized.Money
+
   schema "expenditures" do
     field :desc, :string
-    field :amount, :string
+    field :amount, Money, default: Money.zero
 
     timestamps
   end

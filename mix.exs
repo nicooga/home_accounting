@@ -35,8 +35,9 @@ defmodule HomeAccounting.Mixfile do
      {:phoenix_ecto, "~> 2.0"},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:ja_serializer, "~> 0.8.1"},
-     {:monetized, "~> 0.4.0"}]
+     {:ja_serializer, git: "git@github.com:AgilionApps/ja_serializer.git"},
+     {:monetized, git: "git@github.com:nicooga/monetized.git"},
+     {:cors_plug, "~> 1.1"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
