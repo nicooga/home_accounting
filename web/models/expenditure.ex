@@ -6,11 +6,12 @@ defmodule HomeAccounting.Expenditure do
   schema "expenditures" do
     field :desc, :string
     field :amount, Money, default: Money.zero
+    field :expent_at, Ecto.Date
 
     timestamps
   end
 
-  @required_fields ~w(desc amount)
+  @required_fields ~w(desc amount expent_at)
   @optional_fields ~w()
 
   def changeset(model, params \\ :empty) do
