@@ -28,13 +28,14 @@ defmodule HomeAccounting.ExpenditureController do
     end
   end
 
-  def update(conn, %{"id" => id, "expenditure" => expenditure_params}) do
+  def update(conn, %{"id" => id, "data" => data}) do
+    expenditure_params = JaSerializer.Params.to_attributes(data)
     expenditure = Repo.get!(Expenditure, id)
     changeset = Expenditure.changeset(expenditure, expenditure_params)
 
     case Repo.update(changeset) do
       {:ok, expenditure} ->
-        render(conn, data: expenditure)
+        render(conn, :show, data: expenditure)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
