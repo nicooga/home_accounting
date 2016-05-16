@@ -1,50 +1,32 @@
 defmodule HomeAccounting.ExpenditureController do
   use HomeAccounting.Web, :controller
+  alias HomeAccounting.{Expenditure,Tag}
+  use HomeAccounting.ResourceController
 
-  alias HomeAccounting.Expenditure
-
-  def index(conn, _params) do
-    render conn, data: Repo.all(Expenditure)
+  defp resource_model, do: Expenditure
+  defp resource_location(conn, :show, resource) do
+    expenditure_path(conn, :show, resource)
   end
 
-  def show(conn, %{"id" => id}) do
-    render conn, data: Repo.get(Expenditure, id)
-  end
-
-  def create(conn, %{"data" => data}) do
-    expenditure_params = JaSerializer.Params.to_attributes(data)
-    changeset = Expenditure.changeset(%Expenditure{}, expenditure_params)
-
-    case Repo.insert(changeset) do
-      {:ok, expenditure} ->
-        conn
-        |> put_status(:created)
-        |> put_resp_header("location", expenditure_path(conn, :show, expenditure))
-        |> render(:show, data: expenditure)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(:errors, data: changeset)
+  defp after_action_success({:ok, resource, params}) do
+    case params do
+      %{"tag_names"=>tag_names} ->
+        find_or_create_taggings(resource, tag_names)
+      _ -> true
     end
   end
 
-  def update(conn, %{"id" => id, "data" => data}) do
-    expenditure_params = JaSerializer.Params.to_attributes(data)
-    expenditure = Repo.get!(Expenditure, id)
-    changeset = Expenditure.changeset(expenditure, expenditure_params)
-
-    case Repo.update(changeset) do
-      {:ok, expenditure} ->
-        render(conn, :show, data: expenditure)
-      {:error, changeset} ->
-        conn
-        |> put_status(:unprocessable_entity)
-        |> render(:errors, data: changeset)
+  defp find_or_create_taggings(expenditure, tag_names) do
+    for tag_name <- tag_names do
+      Repo.all(Tag |> Tag.find_by_name(tag_name))
+      |> case do
+        [tag] -> tag
+        [] -> %Tag{name: tag_name} |> Repo.insert!
+      end
+      |> fn(tag)->
+        build_assoc(expenditure, :taggings, tag_id: tag.id)
+        |> HomeAccounting.Repo.insert!
+      end.()
     end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    Repo.get!(Expenditure, id) |> Repo.delete!()
-    send_resp(conn, :no_content, "")
   end
 end
