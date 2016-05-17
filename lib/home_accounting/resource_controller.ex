@@ -8,18 +8,18 @@ defmodule HomeAccounting.ResourceController do
         render conn, data: Repo.all(resource_model)
       end
 
-      #def show(conn, %{"id"=>id}) do
-        #render conn, data: Repo.get(resource_model, id)
-      #end
+      def show(conn, %{"id"=>id}) do
+        render conn, data: Repo.get(resource_model, id)
+      end
 
       def create(conn, %{"data" => data}) do
         handle_action conn, data, struct(resource_model), action: &(Repo.insert(&1))
       end
 
-      #def update(conn, %{"id"=>id, "data"=>data}) do
-        #expenditure = Repo.get!(resource_model, id)
-        #handle_action conn, data, expenditure, action: &(Repo.update(&1))
-      #end
+      def update(conn, %{"id"=>id, "data"=>data}) do
+        expenditure = Repo.get!(resource_model, id)
+        handle_action conn, data, expenditure, action: &(Repo.update(&1))
+      end
 
       def delete(conn, %{"id" => id}) do
         Repo.get!(resource_model, id) |> Repo.delete!()
