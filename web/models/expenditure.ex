@@ -12,9 +12,10 @@ defmodule HomeAccounting.Expenditure do
     has_many(
       :taggings,
       {"expenditures_taggings", Tagging},
-      foreign_key: :assoc_id
+      foreign_key: :assoc_id,
+      on_delete: :delete_all
     )
-    has_many :tags, through: [:taggings, :tag]
+    has_many :tags, through: [:taggings, :tag], on_delete: :delete_all
 
     timestamps
   end
