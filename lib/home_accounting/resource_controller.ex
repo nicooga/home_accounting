@@ -4,8 +4,8 @@ defmodule HomeAccounting.ResourceController do
       use HomeAccounting.Web, :controller
       alias HomeAccounting.Repo
 
-      def index(conn, _params) do
-        render conn, data: Repo.all(resource_model)
+      def index(conn, params) do
+        render conn, data: Repo.all(resource_collection(params))
       end
 
       def show(conn, %{"id"=>id}) do

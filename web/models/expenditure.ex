@@ -20,6 +20,14 @@ defmodule HomeAccounting.Expenditure do
     timestamps
   end
 
+  def search(query, search_term) when search_term == "", do: query
+  def search(query, search_term) do
+    from(e in query,
+      where: fragment("? % ?", e.desc, ^search_term),
+      order_by: fragment("similarity(?, ?) DESC", e.desc, ^search_term))
+  end
+
+
   @required_fields ~w(desc amount expent_at)
   @optional_fields ~w()
 
@@ -28,7 +36,3 @@ defmodule HomeAccounting.Expenditure do
     |> cast(params, @required_fields, @optional_fields)
   end
 end
-
- #alias HomeAccounting.{Repo, Expenditure, Tag, Tagging}
- #import Ecto.Query, only: [from: 2]
- #import Ecto, only: [build_assoc: 2, build_assoc: 3]

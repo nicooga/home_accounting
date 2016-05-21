@@ -8,6 +8,14 @@ defmodule HomeAccounting.ExpenditureController do
     expenditure_path(conn, :show, resource)
   end
 
+  defp resource_collection(params) do
+    case params do
+      %{"filters"=>%{"desc"=>desc}} ->
+        resource_model |> resource_model.search(desc)
+      _ -> resource_model
+    end
+  end
+
   defp after_action_success({:ok, resource, params}) do
     case params do
       %{"tag_names"=>tag_names} ->
