@@ -1,0 +1,7 @@
+v2.
+{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/cors_plug/ebin/Elixir.CORSPlug.beam">>,
+ 'Elixir.CORSPlug',module,<<"lib/cors_plug.ex">>,
+ ['Elixir.Kernel','Elixir.Plug.Conn'],
+ ['Elixir.Access','Elixir.Enum',erlang,'Elixir.Keyword','Elixir.List',
+  'Elixir.Map','Elixir.String.Chars'],
+ [],nil}.

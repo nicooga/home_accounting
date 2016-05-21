@@ -1,0 +1,30 @@
+v2.
+{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/phoenix_ecto/ebin/Elixir.Phoenix.Ecto.beam">>,
+ 'Elixir.Phoenix.Ecto',module,<<"lib/phoenix_ecto.ex">>,
+ ['Elixir.Kernel','Elixir.Module'],
+ [],[],nil}.
+{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/phoenix_ecto/ebin/Elixir.Poison.Encoder.Ecto.Association.NotLoaded.beam">>,
+ 'Elixir.Poison.Encoder.Ecto.Association.NotLoaded',
+ {impl,'Elixir.Poison.Encoder'},
+ <<"lib/phoenix_ecto/json.ex">>,
+ [erlang,'Elixir.Poison','Elixir.Protocol','Elixir.Poison.Encoder',
+  'Elixir.Kernel','Elixir.Module','Elixir.Atom',
+  'Elixir.Ecto.Association.NotLoaded','Elixir.Code','Elixir.Kernel.Typespec'],
+ ['Elixir.String.Chars','Elixir.RuntimeError'],
+ [],nil}.
+{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/phoenix_ecto/ebin/Elixir.Plug.Exception.Ecto.CastError.beam">>,
+ 'Elixir.Plug.Exception.Ecto.CastError',
+ {impl,'Elixir.Plug.Exception'},
+ <<"lib/phoenix_ecto/plug.ex">>,
+ [erlang,'Elixir.Ecto.CastError','Elixir.Protocol','Elixir.Kernel',
+  'Elixir.Ecto.NoResultsError','Elixir.Plug.Exception','Elixir.Module',
+  'Elixir.Atom','Elixir.Kernel.Typespec'],
+ [],[],nil}.
+{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/phoenix_ecto/ebin/Elixir.Plug.Exception.Ecto.NoResultsError.beam">>,
+ 'Elixir.Plug.Exception.Ecto.NoResultsError',
+ {impl,'Elixir.Plug.Exception'},
+ <<"lib/phoenix_ecto/plug.ex">>,
+ [erlang,'Elixir.Ecto.CastError','Elixir.Protocol','Elixir.Kernel',
+  'Elixir.Ecto.NoResultsError','Elixir.Plug.Exception','Elixir.Module',
+  'Elixir.Atom','Elixir.Kernel.Typespec'],
+ [],[],nil}.

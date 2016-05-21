@@ -34,14 +34,14 @@ defmodule HomeAccounting.ResourceController do
 
         case action.(changeset) do
           {:ok, resource} ->
-            after_action_success({:ok, resource, resource_params})
+            after_action({:success, resource, resource_params})
 
             conn
             |> put_resp_header("location", resource_location(conn, :show, resource))
             |> render(:show, data: resource)
 
           {:error, resource} ->
-            after_action_success({:error, resource, resource_params})
+            after_action({:error, resource, resource_params})
 
             conn
             |> put_status(:unprocessable_entity)
@@ -49,7 +49,8 @@ defmodule HomeAccounting.ResourceController do
         end
       end
 
-      #defp after_action_success(_result), do: :nothing
+      defp after_action({:success, resource, params}), do: :nothing
+      defp after_action({:error, resource, params}), do: :nothing
     end
   end
 end

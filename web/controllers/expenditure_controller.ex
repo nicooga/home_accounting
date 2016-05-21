@@ -16,11 +16,11 @@ defmodule HomeAccounting.ExpenditureController do
     end
   end
 
-  defp after_action_success({:ok, resource, params}) do
+  defp after_action({:success, resource, params}) do
     case params do
       %{"tag_names"=>tag_names} ->
         find_or_create_taggings(resource, tag_names)
-      _ -> true
+      _ -> :nothing
     end
   end
 

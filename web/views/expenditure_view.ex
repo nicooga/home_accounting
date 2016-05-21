@@ -5,7 +5,7 @@ defmodule HomeAccounting.ExpenditureView do
   attributes [:desc, :amount, :expent_at, :tag_names]
 
   def amount(expenditure, _conn) do
-    expenditure.amount && expenditure.amount.value
+    expenditure.amount_cents && expenditure.amount_cents / 100
   end
 
   def tag_names(expenditure, _conn) do

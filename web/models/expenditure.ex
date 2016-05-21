@@ -6,7 +6,7 @@ defmodule HomeAccounting.Expenditure do
 
   schema "expenditures" do
     field :desc, :string
-    field :amount, Money, default: Money.zero
+    field :amount_cents, :integer
     field :expent_at, Ecto.Date
 
     has_many(
@@ -27,12 +27,35 @@ defmodule HomeAccounting.Expenditure do
       order_by: fragment("similarity(?, ?) DESC", e.desc, ^search_term))
   end
 
+  def search_expent_at_gteq(query, float) do
+    from(e in select_amount_as_float(query),
+      where: fragment("amount_float >= ?", ^float))
+  end
 
-  @required_fields ~w(desc amount expent_at)
+  defp select_amount_as_float(query) do
+    from(e in query,
+      select: fragment("replace(substring(? from '\d+,\d+'), ',', '.')::float AS amount_float", e.amount))
+  end
+
+  @required_fields ~w(desc amount_cents expent_at)
   @optional_fields ~w()
 
-  def changeset(model, params \\ :empty) do
+  def changeset(model, raw_params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(process_params(raw_params), @required_fields, @optional_fields)
+  end
+
+  defp process_params(raw_params) do
+    case raw_params do
+      %{"amount"=>amount} when is_binary(amount) ->
+        case Float.parse(amount) do
+          {float, _} when is_float(float) ->
+            raw_params
+            |> Map.put("amount_cents", round(float * 100))
+            |> Map.delete("amount")
+          _ -> raw_params
+        end
+      _ -> raw_params
+    end
   end
 end
