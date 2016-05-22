@@ -1,40 +1,26 @@
 defmodule HomeAccounting.ExpenditureController do
   use HomeAccounting.Web, :controller
-  alias HomeAccounting.{Expenditure,Tag}
+  alias HomeAccounting.{Expenditure, Tagging}
   use HomeAccounting.ResourceController
 
-  defp resource_model, do: Expenditure
-  defp resource_location(conn, :show, resource) do
+  def resource_model, do: Expenditure
+  def resource_location(conn, :show, resource) do
     expenditure_path(conn, :show, resource)
   end
 
-  defp resource_collection(params) do
+  def resource_collection(params) do
     case params do
-      %{"filters"=>%{"desc"=>desc}} ->
-        resource_model |> resource_model.search(desc)
+      %{"filters"=> filters} ->
+        Expenditure |> Expenditure.Search.apply_filters(filters)
       _ -> resource_model
     end
   end
 
-  defp after_action({:success, resource, params}) do
+  def after_action(:success, resource, params) do
     case params do
       %{"tag_names"=>tag_names} ->
-        find_or_create_taggings(resource, tag_names)
+        resource |> Tagging.update_taggings(tag_names)
       _ -> :nothing
-    end
-  end
-
-  defp find_or_create_taggings(expenditure, tag_names) do
-    for tag_name <- tag_names do
-      Repo.all(Tag |> Tag.find_by_name(tag_name))
-      |> case do
-        [tag] -> tag
-        [] -> %Tag{name: tag_name} |> Repo.insert!
-      end
-      |> fn(tag)->
-        build_assoc(expenditure, :taggings, tag_id: tag.id)
-        |> HomeAccounting.Repo.insert!
-      end.()
     end
   end
 end

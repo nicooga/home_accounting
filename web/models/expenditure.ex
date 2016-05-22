@@ -1,8 +1,6 @@
 defmodule HomeAccounting.Expenditure do
   use HomeAccounting.Web, :model
-
-  alias Monetized.Money
-  alias HomeAccounting.{Tagging, Tag}
+  alias HomeAccounting.{Tagging}
 
   schema "expenditures" do
     field :desc, :string
@@ -20,23 +18,6 @@ defmodule HomeAccounting.Expenditure do
     timestamps
   end
 
-  def search(query, search_term) when search_term == "", do: query
-  def search(query, search_term) do
-    from(e in query,
-      where: fragment("? % ?", e.desc, ^search_term),
-      order_by: fragment("similarity(?, ?) DESC", e.desc, ^search_term))
-  end
-
-  def search_expent_at_gteq(query, float) do
-    from(e in select_amount_as_float(query),
-      where: fragment("amount_float >= ?", ^float))
-  end
-
-  defp select_amount_as_float(query) do
-    from(e in query,
-      select: fragment("replace(substring(? from '\d+,\d+'), ',', '.')::float AS amount_float", e.amount))
-  end
-
   @required_fields ~w(desc amount_cents expent_at)
   @optional_fields ~w()
 
@@ -47,14 +28,17 @@ defmodule HomeAccounting.Expenditure do
 
   defp process_params(raw_params) do
     case raw_params do
-      %{"amount"=>amount} when is_binary(amount) ->
-        case Float.parse(amount) do
-          {float, _} when is_float(float) ->
-            raw_params
-            |> Map.put("amount_cents", round(float * 100))
-            |> Map.delete("amount")
-          _ -> raw_params
+      %{"amount"=>arg} ->
+        number = cond do
+          is_binary(arg) ->
+            {float,_} = Float.parse(arg)
+            float
+          is_number(arg) -> arg
         end
+
+        raw_params
+        |> Map.put("amount_cents", round(number * 100))
+        |> Map.delete("amount")
       _ -> raw_params
     end
   end

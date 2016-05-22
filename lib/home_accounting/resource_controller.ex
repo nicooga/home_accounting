@@ -1,7 +1,7 @@
 defmodule HomeAccounting.ResourceController do
   defmacro __using__(_env) do
     quote do
-      use HomeAccounting.Web, :controller
+      use Phoenix.Controller
       alias HomeAccounting.Repo
 
       def index(conn, params) do
@@ -34,14 +34,14 @@ defmodule HomeAccounting.ResourceController do
 
         case action.(changeset) do
           {:ok, resource} ->
-            after_action({:success, resource, resource_params})
+            after_action_success resource, resource_params
 
             conn
             |> put_resp_header("location", resource_location(conn, :show, resource))
             |> render(:show, data: resource)
 
           {:error, resource} ->
-            after_action({:error, resource, resource_params})
+            after_action_error resource, resource_params
 
             conn
             |> put_status(:unprocessable_entity)
@@ -49,8 +49,12 @@ defmodule HomeAccounting.ResourceController do
         end
       end
 
-      defp after_action({:success, resource, params}), do: :nothing
-      defp after_action({:error, resource, params}), do: :nothing
+      defp after_action_success(resource, params) do
+        apply(__MODULE__, :after_action, [:success, resource, params])
+      end
+
+      defp after_action_error(resource, params) do
+      end
     end
   end
 end

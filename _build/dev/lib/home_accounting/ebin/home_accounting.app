@@ -8,6 +8,7 @@
                         'Elixir.HomeAccounting.ErrorHelpers',
                         'Elixir.HomeAccounting.ErrorView',
                         'Elixir.HomeAccounting.Expenditure',
+                        'Elixir.HomeAccounting.Expenditure.Search',
                         'Elixir.HomeAccounting.ExpenditureController',
                         'Elixir.HomeAccounting.ExpenditureView',
                         'Elixir.HomeAccounting.Gettext',
