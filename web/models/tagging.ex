@@ -37,7 +37,7 @@ defmodule HomeAccounting.Tagging do
 
   defp get_or_create_tag_by_name(name) do
     case Tag.get_by_name(name) do
-      tag -> tag
+      %Tag{} = tag -> tag
       nil -> %Tag{name: name} |> Repo.insert!
     end
   end

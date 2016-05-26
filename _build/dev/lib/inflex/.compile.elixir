@@ -1,28 +1,28 @@
 v2.
-{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Camelize.beam">>,
- 'Elixir.Inflex.Camelize',module,<<"lib/inflex/camelize.ex">>,
- ['Elixir.Kernel','Elixir.Module'],
- ['Elixir.String','Elixir.Enum',erlang,'Elixir.Regex','Elixir.String.Chars'],
- [],nil}.
-{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Parameterize.beam">>,
+{<<"/home/dev10/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Parameterize.beam">>,
  'Elixir.Inflex.Parameterize',module,<<"lib/inflex/parameterize.ex">>,
  ['Elixir.Kernel','Elixir.Module'],
- ['Elixir.String','Elixir.Enum','Elixir.Regex'],
+ ['Elixir.Regex','Elixir.String','Elixir.Enum'],
  [],nil}.
-{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.beam">>,
- 'Elixir.Inflex',module,<<"lib/inflex.ex">>,
- ['Elixir.Inflex.Camelize',erlang,'Elixir.Kernel.Utils','Elixir.Kernel',
-  'Elixir.Inflex.Underscore','Elixir.Keyword','Elixir.List','Elixir.Module',
-  'Elixir.String.Chars','Elixir.Inflex.Parameterize','Elixir.ArgumentError',
-  'Elixir.Inflex.Pluralize'],
- [],[],nil}.
-{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Underscore.beam">>,
+{<<"/home/dev10/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Camelize.beam">>,
+ 'Elixir.Inflex.Camelize',module,<<"lib/inflex/camelize.ex">>,
+ ['Elixir.Kernel','Elixir.Module'],
+ [erlang,'Elixir.Regex','Elixir.String.Chars','Elixir.String','Elixir.Enum'],
+ [],nil}.
+{<<"/home/dev10/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Underscore.beam">>,
  'Elixir.Inflex.Underscore',module,<<"lib/inflex/underscore.ex">>,
  ['Elixir.Kernel','Elixir.Module'],
- ['Elixir.String',erlang,'Elixir.Atom'],
+ ['Elixir.Atom',erlang,'Elixir.String'],
  [],nil}.
-{<<"/home/cygnus/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Pluralize.beam">>,
+{<<"/home/dev10/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.beam">>,
+ 'Elixir.Inflex',module,<<"lib/inflex.ex">>,
+ ['Elixir.Kernel','Elixir.Inflex.Parameterize','Elixir.Inflex.Camelize',
+  'Elixir.Module',erlang,'Elixir.Inflex.Pluralize','Elixir.Keyword',
+  'Elixir.ArgumentError','Elixir.Inflex.Underscore','Elixir.String.Chars',
+  'Elixir.Kernel.Utils','Elixir.List'],
+ [],[],nil}.
+{<<"/home/dev10/Projects/home_accounting/_build/dev/lib/inflex/ebin/Elixir.Inflex.Pluralize.beam">>,
  'Elixir.Inflex.Pluralize',module,<<"lib/inflex/pluralize.ex">>,
- [erlang,'Elixir.Kernel','Elixir.Module'],
- ['Elixir.Enum','Elixir.Regex','Elixir.String.Chars'],
+ ['Elixir.Kernel','Elixir.Module',erlang],
+ ['Elixir.Regex','Elixir.String.Chars','Elixir.Enum'],
  [],nil}.

@@ -38,7 +38,12 @@ defmodule HomeAccounting.Expenditure.Search do
     from e in query, where: e.expent_at <= ^term
   end
 
-  defp apply_filter(query, "tag_names", term), do: query
+  defp apply_filter(query, "tag_ids", term) when term == "", do: query
+  defp apply_filter(query, "tag_ids", term) when is_binary(term) do
+    from e in query,
+      join: t in assoc(e, :tags),
+      where: t.id in ^(term |> String.split(","))
+  end
 
   defp apply_parsing_float(query, filter, term) do
     {float,_} = Float.parse(term)

@@ -1,26 +1,26 @@
 defmodule HomeAccounting.ExpenditureController do
   use HomeAccounting.Web, :controller
   alias HomeAccounting.{Expenditure, Tagging}
-  use HomeAccounting.ResourceController
 
-  def resource_model, do: Expenditure
-  def resource_location(conn, :show, resource) do
-    expenditure_path(conn, :show, resource)
-  end
+  use HomeAccounting.ResourceController, %{
+    resource_model: Expenditure,
 
-  def resource_collection(params) do
-    case params do
-      %{"filters"=> filters} ->
-        Expenditure |> Expenditure.Search.apply_filters(filters)
-      _ -> resource_model
+    resource_location: &(tag_path(&1, :show, &2)),
+
+    resource_collection: fn(params) ->
+      case params do
+        %{"filters"=> filters} ->
+          Expenditure |> Expenditure.Search.apply_filters(filters)
+        _ -> resource_model
+      end
+    end,
+
+    after_action_success: fn(resource, params) ->
+      case params do
+        %{"tag_names"=>tag_names} ->
+          resource |> Tagging.update_taggings(tag_names)
+        _ -> :nothing
+      end
     end
-  end
-
-  def after_action(:success, resource, params) do
-    case params do
-      %{"tag_names"=>tag_names} ->
-        resource |> Tagging.update_taggings(tag_names)
-      _ -> :nothing
-    end
-  end
+  }
 end

@@ -34,5 +34,6 @@ defmodule HomeAccounting.Endpoint do
     signing_salt: "/K6N3TWm"
 
   plug CORSPlug
+
   plug HomeAccounting.Router
 end

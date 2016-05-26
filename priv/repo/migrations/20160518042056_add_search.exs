@@ -5,7 +5,7 @@ defmodule HomeAccounting.Repo.Migrations.AddSearch do
 
   def up do
     execute "CREATE extension if not exists pg_trgm;"
-    execute ~S/
+    execute ~s/
       CREATE INDEX #{@index_name}
       ON expenditures
       USING gin("desc" gin_trgm_ops);

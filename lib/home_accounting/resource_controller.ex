@@ -1,5 +1,5 @@
 defmodule HomeAccounting.ResourceController do
-  defmacro __using__(_env) do
+  defmacro __using__({:%{}, _, opts_list}) do
     quote do
       use Phoenix.Controller
       alias HomeAccounting.Repo
@@ -17,8 +17,8 @@ defmodule HomeAccounting.ResourceController do
       end
 
       def update(conn, %{"id"=>id, "data"=>data}) do
-        expenditure = Repo.get!(resource_model, id)
-        handle_action conn, data, expenditure, action: &(Repo.update(&1))
+        resource = Repo.get!(resource_model, id)
+        handle_action conn, data, resource, action: &(Repo.update(&1))
       end
 
       def delete(conn, %{"id" => id}) do
@@ -37,7 +37,7 @@ defmodule HomeAccounting.ResourceController do
             after_action_success resource, resource_params
 
             conn
-            |> put_resp_header("location", resource_location(conn, :show, resource))
+            |> put_resp_header("location", resource_location(conn, resource))
             |> render(:show, data: resource)
 
           {:error, resource} ->
@@ -49,11 +49,42 @@ defmodule HomeAccounting.ResourceController do
         end
       end
 
-      defp after_action_success(resource, params) do
-        apply(__MODULE__, :after_action, [:success, resource, params])
+      defp resource_collection(params) do
+        case get_opt_func(:resource_collection) do
+          {:ok, func} -> func.(params)
+          :not_found -> resource_model
+        end
       end
 
-      defp after_action_error(resource, params) do
+      defp resource_model do
+        unquote(opts_list) |> Keyword.fetch!(:resource_model)
+      end
+
+      defp after_action_error(resource, resource_params) do
+        case get_opt_func(:after_action_error) do
+          {:ok, func} -> func.(resource, resource_params)
+          :not_found -> :nothing
+        end
+      end
+
+      defp after_action_success(resource, resource_params) do
+        case get_opt_func(:after_action_success) do
+          {:ok, func} -> func.(resource, resource_params)
+          :not_found -> :nothing
+        end
+      end
+
+      defp resource_location(conn, resource) do
+        case get_opt_func(:resource_location) do
+          {:ok, func} -> func.(conn, resource)
+        end
+      end
+
+      defp get_opt_func(name) do
+        case unquote(opts_list) |> Keyword.fetch(name) do
+          {:ok, func} when is_function(func) -> {:ok, func}
+          :error -> :not_found
+        end
       end
     end
   end

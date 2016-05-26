@@ -17,6 +17,8 @@
                         'Elixir.HomeAccounting.Router',
                         'Elixir.HomeAccounting.Router.Helpers',
                         'Elixir.HomeAccounting.Tag',
+                        'Elixir.HomeAccounting.TagController',
+                        'Elixir.HomeAccounting.TagView',
                         'Elixir.HomeAccounting.Tagging',
                         'Elixir.HomeAccounting.UserSocket',
                         'Elixir.HomeAccounting.Web']},

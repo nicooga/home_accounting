@@ -10,5 +10,6 @@ defmodule HomeAccounting.Router do
   scope "/api", HomeAccounting do
     pipe_through :api
     resources "/expenditures", ExpenditureController, except: [:new, :edit]
+    resources "/tags", TagController, except: [:new, :edit]
   end
 end
